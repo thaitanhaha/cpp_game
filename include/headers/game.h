@@ -10,23 +10,28 @@ enum GAMESTATE {
 class GameManager 
 {
     private:
-        // void update();
-        // void handleEvents();
-
         SDL_Window* window;
         SDL_Renderer* renderer;
-
 
         void clear();
         void display();
         void cleanup();
-        
+
     public:
-        GAMESTATE gameState;
-        SDL_Texture* loadTexture(const char*);
         GameManager();
         ~GameManager();
+
+        GAMESTATE gameState;
+        
+        SDL_Texture* loadTexture(const char*);
+
         void init(const char*, int, int, int, int, Uint32);
         void update();
-        void render(SDL_Texture*, int, int, int, int);
+        void render(SDL_Texture*, int, int, int, int, int, int, int, int, int);
+
+        // static GameManager* getInstance()
+        // {
+        //     static GameManager mInstance;
+        //     return &mInstance;
+        // }
 };
