@@ -2,82 +2,43 @@
 #include <iostream>
 #include <random>
 #include "laser.h"
+#include "shield.h"
+#include "game.h"
 #include <vector>
+#include <chrono>
+#include <ctime>    
 using namespace std;
 
 const int screenWidth = 640;
 const int screenHeight = 512;
 
-// vector <float> randomLaserStartPoint(mt19937 engine, 
-//     uniform_int_distribution<int> edge, 
-//     uniform_real_distribution<float> distribution_x, 
-//     uniform_real_distribution<float> distribution_y)
-// {
-//     int edgeIndex = edge(engine);
-//     float x, y;
-//     switch (edgeIndex)
-//     {
-//         case 0:
-//             x = distribution_x(engine);
-//             y = 0.0;
-//             break;
-//         case 1:
-//             x = 10.0;
-//             y = distribution_y(engine);
-//             break;
-//         case 2:
-//             x = distribution_x(engine);
-//             y = 10.0;
-//             break;
-//         case 3:
-//             x = 0.0;
-//             y = distribution_y(engine);
-//             break;
-//     }
-//     return {x,y};
-// }
-
 int main(int argc, char *argv[])
 {
     GameManager game;
-    
-    random_device rd;
-    mt19937 engine(rd());
-    uniform_int_distribution<int> edge(0, 3);
-    uniform_real_distribution<float> distribution_x(0.0f, (float) screenWidth);
-    uniform_real_distribution<float> distribution_y(0.0f, (float) screenHeight);
 
     game.init("MyGame", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
     SDL_Texture* background = game.loadTexture("sprite/background.png");
     SDL_Texture* balloon = game.loadTexture("sprite/balloon.png");
-    SDL_Texture* shield = game.loadTexture("sprite/shield.png");
 
-    int edgeIndex = edge(engine);
-    float x, y;
-    switch (edgeIndex)
-    {
-        case 0:
-            x = distribution_x(engine);
-            y = 0.0;
-            break;
-        case 1:
-            x = screenWidth;
-            y = distribution_y(engine);
-            break;
-        case 2:
-            x = distribution_x(engine);
-            y = screenHeight;
-            break;
-        case 3:
-            x = 0.0;
-            y = distribution_y(engine);
-            break;
-    }
-    Laser ls(x, y, 0.02);
+    Shield shield;
+    shield.shield_texture = game.loadTexture("sprite/shield.png");
+
+    Laser ls(screenWidth, screenHeight, 0.1);
     ls.laser_texture = game.loadTexture("sprite/laser.png");
+
+    int frame = 0;
+
+    auto start = chrono::system_clock::now();
 
     while (game.gameState != GAMESTATE::QUIT)
     {
+        frame++;
+        if (frame == 1000)
+        {
+            frame = 0;
+            ls.ResetLaser(screenWidth, screenHeight, 0.1);
+        }
+
         SDL_Event windowEvent;
         SDL_PollEvent(&windowEvent);
         switch (windowEvent.type)
@@ -85,15 +46,38 @@ int main(int argc, char *argv[])
             case SDL_QUIT:
                 game.gameState = GAMESTATE::QUIT;
                 break;
+            case SDL_KEYDOWN:
+                switch (windowEvent.key.keysym.sym)
+                {
+                    case SDLK_RIGHT:
+                        shield.turn("RIGHT");
+                        break;
+                    case SDLK_UP:
+                        shield.turn("UP");
+                        break;
+                    case SDLK_LEFT:
+                        shield.turn("LEFT");
+                        break;
+                    case SDLK_DOWN:
+                        shield.turn("DOWN");
+                        break;
+                }
+                break;
         }
         game.render(background, 0, 0, 640, 512, 0, 0, 640, 512, 0);
         game.render(balloon, 0, 0, 415, 465, 300, 200, 415/6, 465/6, 0);
-        game.render(shield, 0, 0, 353, 707, 300, 300, 353/10, 707/10, -90);
+        game.render(shield.shield_texture, 0, 0, 353, 707, shield.x, shield.y, 353/10, 707/10, shield.angle);
         game.render(ls.laser_texture, 0, 0, 860, 229, ls.x, ls.y, 860/12, 229/12, ls.angle);
-
         ls.update();
         game.update();
     }
+
+    auto end = chrono::system_clock::now();
+ 
+    chrono::duration<double> elapsed_seconds = end-start;
+    time_t end_time = chrono::system_clock::to_time_t(end);
+ 
+    std::cout << "Play time: " << (int) (elapsed_seconds.count()) << "s" << endl;
 
     return 0;
 }
