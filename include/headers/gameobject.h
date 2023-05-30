@@ -11,9 +11,11 @@ class GameObject
     public: 
         Position position;
         SDL_Texture* texture;
+        float texture_offset_x, texture_offset_y;
 
         GameObject();
         bool CheckCollision(GameObject);
+    
 };
 
 #endif

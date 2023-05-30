@@ -10,8 +10,7 @@ class Laser : public GameObject
 {
     private:
         float speed;
-        float angle_x; 
-        float angle_y;
+        float angle_x, angle_y;
     public: 
         float angle;
 
@@ -20,7 +19,7 @@ class Laser : public GameObject
         void RandomStartingPoint(float, float);
 
         ~Laser();
-        void ResetLaser(float, float, float);
+        void ResetLaser(float, float);
         void update();
 };
 

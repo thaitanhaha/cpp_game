@@ -9,7 +9,7 @@ Laser::Laser()
     this -> position.x = 0;
     this -> position.y = 0;
     this -> angle = 0;
-    this -> speed = 0.06;
+    this -> speed = 0.2;
 }
 
 void Laser::RandomStartingPoint(float screenWidth, float screenHeight)
@@ -47,7 +47,8 @@ void Laser::RandomStartingPoint(float screenWidth, float screenHeight)
 
 Laser::Laser(float width, float height, float speed)
 {
-    ResetLaser(width, height, speed);
+    ResetLaser(width, height);
+    this -> speed = speed;
 }
 
 void Laser::update()
@@ -56,7 +57,7 @@ void Laser::update()
     this -> position.y += angle_y * speed;
 }
 
-void Laser::ResetLaser(float width, float height, float speed)
+void Laser::ResetLaser(float width, float height)
 {
     RandomStartingPoint(width, height);
 
@@ -66,7 +67,12 @@ void Laser::ResetLaser(float width, float height, float speed)
     float angleDeg = angleRad * 180.0f / M_PI;
 
     this -> angle = angleDeg;
-    this -> speed = speed;
+
+    this -> speed += 0.01;
+    if (this -> speed > 0.6)
+    {
+        this -> speed = 0.6;
+    }
 
     angleRad = angle * M_PI / 180.0f;
 

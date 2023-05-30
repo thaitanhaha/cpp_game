@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
     Shield shield;
     shield.texture = game.loadTexture("sprite/shield.png");
 
-    Laser ls(screenWidth, screenHeight, 0.1);
+    Laser ls(screenWidth, screenHeight, 0.2);
     ls.texture = game.loadTexture("sprite/laser.png");
 
     int frame = 0;
@@ -69,15 +69,15 @@ int main(int argc, char *argv[])
         }
         game.render(background, 0, 0, 640, 512, Position(0, 0), 640, 512, 0);
         game.render(balloon.texture, 0, 0, 415, 465, balloon.position, 415/6, 465/6, 0);
-        game.render(shield.texture, 0, 0, 648, 200, shield.position, 648/10, 200/10, shield.angle);
+        game.render(shield.texture, 0, 0, 648, 200, shield.position, 648/6, 200/10, shield.angle);
         game.render(ls.texture, 0, 0, 860, 229, ls.position, 860/12, 229/12, ls.angle);
         ls.update();
         game.update();
         if (ls.CheckCollision(shield))
         {
-            ls.ResetLaser(screenWidth, screenHeight, 0.1);
+            ls.ResetLaser(screenWidth, screenHeight);
         }
-        if (ls.CheckCollision(balloon))
+        else if (ls.CheckCollision(balloon))
         {
             game.gameState = GAMESTATE::QUIT;
         }
