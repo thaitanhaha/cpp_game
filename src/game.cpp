@@ -48,18 +48,18 @@ void GameManager::cleanup()
 }
 
 void GameManager::render(SDL_Texture* tex, int src_x, int src_y, int src_w, int src_h, 
-                            int dst_x, int dst_y, int dst_w, int dst_h, int angle)
+                            Position dst, int dst_w, int dst_h, int angle)
 {
-    SDL_Rect src;
-    src.x = src_x;
-    src.y = src_y;
-    src.w = src_w;
-    src.h = src_h;
+    SDL_Rect rect_src;
+    rect_src.x = src_x;
+    rect_src.y = src_y;
+    rect_src.w = src_w;
+    rect_src.h = src_h;
 
-    SDL_Rect dst;
-    dst.x = dst_x;
-    dst.y = dst_y;
-    dst.w = dst_w;
-    dst.h = dst_h;
-    SDL_RenderCopyEx(renderer, tex, &src, &dst, angle, NULL, SDL_FLIP_NONE);
+    SDL_Rect rect_dst;
+    rect_dst.x = dst.x;
+    rect_dst.y = dst.y;
+    rect_dst.w = dst_w;
+    rect_dst.h = dst_h;
+    SDL_RenderCopyEx(renderer, tex, &rect_src, &rect_dst, angle, NULL, SDL_FLIP_NONE);
 }

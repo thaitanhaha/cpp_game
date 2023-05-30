@@ -1,19 +1,19 @@
+#ifndef LASER_H
+#define LASER_H
+
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
-// #include "game.h"
+#include "gameobject.h"
 
-class Laser
+class Laser : public GameObject
 {
     private:
         float speed;
         float angle_x; 
         float angle_y;
     public: 
-        float x;
-        float y;
         float angle;
-        SDL_Texture* laser_texture;
 
         Laser();
         Laser(float, float, float);
@@ -23,3 +23,5 @@ class Laser
         void ResetLaser(float, float, float);
         void update();
 };
+
+#endif

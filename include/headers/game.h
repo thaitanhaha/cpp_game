@@ -1,6 +1,10 @@
+#ifndef GAME_H
+#define GAME_H 
+
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
+#include "gameobject.h"
 
 enum GAMESTATE {
     RUNNING,
@@ -27,11 +31,7 @@ class GameManager
 
         void init(const char*, int, int, int, int, Uint32);
         void update();
-        void render(SDL_Texture*, int, int, int, int, int, int, int, int, int);
-
-        // static GameManager* getInstance()
-        // {
-        //     static GameManager mInstance;
-        //     return &mInstance;
-        // }
+        void render(SDL_Texture*, int, int, int, int, Position, int, int, int);
 };
+
+#endif

@@ -1,12 +1,13 @@
 #include "laser.h"
+#include "shield.h"
 #include <cmath>
 #include <random>
 using namespace std;
 
 Laser::Laser()
 {
-    this -> x = 0;
-    this -> y = 0;
+    this -> position.x = 0;
+    this -> position.y = 0;
     this -> angle = 0;
     this -> speed = 0.06;
 }
@@ -40,8 +41,8 @@ void Laser::RandomStartingPoint(float screenWidth, float screenHeight)
             y = distribution_y(engine);
             break;
     }
-    this -> x = x;
-    this -> y = y;
+    this -> position.x = x;
+    this -> position.y = y;
 }
 
 Laser::Laser(float width, float height, float speed)
@@ -51,16 +52,16 @@ Laser::Laser(float width, float height, float speed)
 
 void Laser::update()
 {
-    x += angle_x * speed;
-    y += angle_y * speed;
+    this -> position.x += angle_x * speed;
+    this -> position.y += angle_y * speed;
 }
 
 void Laser::ResetLaser(float width, float height, float speed)
 {
     RandomStartingPoint(width, height);
 
-    float deltaX = 300.0 - x;
-    float deltaY = 200.0 - y;
+    float deltaX = 300.0 - this -> position.x;
+    float deltaY = 200.0 - this -> position.y;
     float angleRad = atan2(deltaY, deltaX);
     float angleDeg = angleRad * 180.0f / M_PI;
 
@@ -75,9 +76,9 @@ void Laser::ResetLaser(float width, float height, float speed)
 
 Laser::~Laser()
 {
-    if (laser_texture != nullptr)
+    if (texture != nullptr)
     {
-        SDL_DestroyTexture(laser_texture);
-        laser_texture = nullptr;
+        SDL_DestroyTexture(texture);
+        texture = nullptr;
     }
 }

@@ -1,9 +1,9 @@
 #include <SDL.h>
 #include <iostream>
 #include <random>
-#include "laser.h"
-#include "shield.h"
 #include "game.h"
+#include "shield.h"
+#include "laser.h"
 #include <vector>
 #include <chrono>
 #include <ctime>    
@@ -21,10 +21,10 @@ int main(int argc, char *argv[])
     SDL_Texture* balloon = game.loadTexture("sprite/balloon.png");
 
     Shield shield;
-    shield.shield_texture = game.loadTexture("sprite/shield.png");
+    shield.texture = game.loadTexture("sprite/shield.png");
 
     Laser ls(screenWidth, screenHeight, 0.1);
-    ls.laser_texture = game.loadTexture("sprite/laser.png");
+    ls.texture = game.loadTexture("sprite/laser.png");
 
     int frame = 0;
 
@@ -64,10 +64,10 @@ int main(int argc, char *argv[])
                 }
                 break;
         }
-        game.render(background, 0, 0, 640, 512, 0, 0, 640, 512, 0);
-        game.render(balloon, 0, 0, 415, 465, 300, 200, 415/6, 465/6, 0);
-        game.render(shield.shield_texture, 0, 0, 353, 707, shield.x, shield.y, 353/10, 707/10, shield.angle);
-        game.render(ls.laser_texture, 0, 0, 860, 229, ls.x, ls.y, 860/12, 229/12, ls.angle);
+        game.render(background, 0, 0, 640, 512, Position(0, 0), 640, 512, 0);
+        game.render(balloon, 0, 0, 415, 465, Position(300, 200), 415/6, 465/6, 0);
+        game.render(shield.texture, 0, 0, 353, 707, shield.position, 353/10, 707/10, shield.angle);
+        game.render(ls.texture, 0, 0, 860, 229, ls.position, 860/12, 229/12, ls.angle);
         ls.update();
         game.update();
     }

@@ -1,16 +1,18 @@
+#ifndef SHIELD_H
+#define SHIELD_H
+
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
-// #include "game.h"
+#include "gameobject.h"
 
-class Shield
+class Shield : public GameObject
 {
     private:
-        int currentDirection; // 0 right 1 up 2 left 3 down
+
     public:
-        float x, y;
+        int currentDirection; // 0 right 1 up 2 left 3 down
         int angle;
-        SDL_Texture* shield_texture;
 
         Shield();
         Shield(float, float, float);
@@ -18,3 +20,5 @@ class Shield
         void update();
         void turn(const char*);
 };
+
+#endif
