@@ -13,6 +13,7 @@ class GameObject
         SDL_Texture* texture;
 
         GameObject();
+        bool CheckCollision(GameObject);
 };
 
 #endif

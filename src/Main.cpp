@@ -4,6 +4,7 @@
 #include "game.h"
 #include "shield.h"
 #include "laser.h"
+#include "balloon.h"
 #include <vector>
 #include <chrono>
 #include <ctime>    
@@ -18,7 +19,9 @@ int main(int argc, char *argv[])
 
     game.init("MyGame", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, screenWidth, screenHeight, SDL_WINDOW_SHOWN);
     SDL_Texture* background = game.loadTexture("sprite/background.png");
-    SDL_Texture* balloon = game.loadTexture("sprite/balloon.png");
+
+    Balloon balloon(300, 200);
+    balloon.texture = game.loadTexture("sprite/balloon.png");
 
     Shield shield;
     shield.texture = game.loadTexture("sprite/shield.png");
@@ -32,12 +35,12 @@ int main(int argc, char *argv[])
 
     while (game.gameState != GAMESTATE::QUIT)
     {
-        frame++;
-        if (frame == 1000)
-        {
-            frame = 0;
-            ls.ResetLaser(screenWidth, screenHeight, 0.1);
-        }
+        // frame++;
+        // if (frame == 1000)
+        // {
+        //     frame = 0;
+        //     ls.ResetLaser(screenWidth, screenHeight, 0.1);
+        // }
 
         SDL_Event windowEvent;
         SDL_PollEvent(&windowEvent);
@@ -65,11 +68,19 @@ int main(int argc, char *argv[])
                 break;
         }
         game.render(background, 0, 0, 640, 512, Position(0, 0), 640, 512, 0);
-        game.render(balloon, 0, 0, 415, 465, Position(300, 200), 415/6, 465/6, 0);
-        game.render(shield.texture, 0, 0, 353, 707, shield.position, 353/10, 707/10, shield.angle);
+        game.render(balloon.texture, 0, 0, 415, 465, balloon.position, 415/6, 465/6, 0);
+        game.render(shield.texture, 0, 0, 648, 200, shield.position, 648/10, 200/10, shield.angle);
         game.render(ls.texture, 0, 0, 860, 229, ls.position, 860/12, 229/12, ls.angle);
         ls.update();
         game.update();
+        if (ls.CheckCollision(shield))
+        {
+            ls.ResetLaser(screenWidth, screenHeight, 0.1);
+        }
+        if (ls.CheckCollision(balloon))
+        {
+            game.gameState = GAMESTATE::QUIT;
+        }
     }
 
     auto end = chrono::system_clock::now();
