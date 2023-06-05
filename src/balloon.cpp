@@ -2,7 +2,8 @@
 
 Balloon::Balloon()
 {
-    
+    this -> position.x = 0;
+    this -> position.y = 0;
 }
 
 Balloon::Balloon(float x, float y)

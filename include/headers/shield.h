@@ -15,9 +15,7 @@ class Shield : public GameObject
         int angle;
 
         Shield();
-        Shield(float, float, float);
-
-        void update();
+        Shield(int, float, float, int);
         void turn(const char*);
 };
 

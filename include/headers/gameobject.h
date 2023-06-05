@@ -14,8 +14,8 @@ class GameObject
         float texture_offset_x, texture_offset_y;
 
         GameObject();
+        void update();
         bool CheckCollision(GameObject);
-    
 };
 
 #endif

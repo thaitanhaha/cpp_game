@@ -19,9 +19,9 @@ class GameManager
 
         void clear();
         void display();
-        void cleanup();
 
     public:
+        void cleanup();
         GameManager();
         ~GameManager();
 

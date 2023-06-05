@@ -19,8 +19,8 @@ class Laser : public GameObject
         void RandomStartingPoint(float, float);
 
         ~Laser();
-        void ResetLaser(float, float);
         void update();
+        void ResetLaser(float, float);
 };
 
 #endif

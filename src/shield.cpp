@@ -5,17 +5,23 @@
 Shield::Shield()
 {
     this -> currentDirection = 4;
-    this -> position.x = 285;
-    this -> position.y = 275;
+    this -> position.x = 0;
+    this -> position.y = 0;
     this -> angle = 0;
+
+    this -> texture_offset_x = 0;
+    this -> texture_offset_y = 0;
+}
+
+Shield::Shield(int currentDirection, float x, float y, int angle)
+{
+    this -> currentDirection = currentDirection;
+    this -> position.x = x;
+    this -> position.y = y;
+    this -> angle = angle;
 
     this -> texture_offset_x = 648/36;
     this -> texture_offset_y = 3;
-}
-
-void Shield::update()
-{
-    
 }
 
 void Shield::turn(const char* direction)

@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     Balloon balloon(300, 200);
     balloon.texture = game.loadTexture("sprite/balloon.png");
 
-    Shield shield;
+    Shield shield(4, 285, 275, 0);
     shield.texture = game.loadTexture("sprite/shield.png");
 
     Laser ls(screenWidth, screenHeight, 0.2);
@@ -35,13 +35,6 @@ int main(int argc, char *argv[])
 
     while (game.gameState != GAMESTATE::QUIT)
     {
-        // frame++;
-        // if (frame == 1000)
-        // {
-        //     frame = 0;
-        //     ls.ResetLaser(screenWidth, screenHeight, 0.1);
-        // }
-
         SDL_Event windowEvent;
         SDL_PollEvent(&windowEvent);
         switch (windowEvent.type)
@@ -82,8 +75,8 @@ int main(int argc, char *argv[])
             game.gameState = GAMESTATE::QUIT;
         }
     }
-
     auto end = chrono::system_clock::now();
+    game.cleanup();
  
     chrono::duration<double> elapsed_seconds = end-start;
     time_t end_time = chrono::system_clock::to_time_t(end);

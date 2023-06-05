@@ -12,6 +12,12 @@ Laser::Laser()
     this -> speed = 0.2;
 }
 
+Laser::Laser(float width, float height, float speed)
+{
+    ResetLaser(width, height);
+    this -> speed = speed;
+}
+
 void Laser::RandomStartingPoint(float screenWidth, float screenHeight)
 {
     random_device rd;
@@ -43,12 +49,6 @@ void Laser::RandomStartingPoint(float screenWidth, float screenHeight)
     }
     this -> position.x = x;
     this -> position.y = y;
-}
-
-Laser::Laser(float width, float height, float speed)
-{
-    ResetLaser(width, height);
-    this -> speed = speed;
 }
 
 void Laser::update()

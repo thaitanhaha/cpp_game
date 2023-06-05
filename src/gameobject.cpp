@@ -16,3 +16,8 @@ bool GameObject::CheckCollision(GameObject other)
     float temp_y = other.position.y + other.texture_offset_y;
     return (fabs(temp_x - position.x) < epsilon) && (fabs(temp_y - position.y) < epsilon);
 }
+
+void GameObject::update()
+{
+    
+}
